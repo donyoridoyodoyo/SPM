@@ -7,9 +7,9 @@
 
 		<!-- 基本配置：JDBC方式 -->
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://www.andromedids.cn:3306/spm?useUnicode=true&amp;characterEncoding=utf-8</property>
-		<property name="hibernate.connection.username">remote</property>
-		<property name="hibernate.connection.password">remote-MySQL57</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost/spm?characterEncoding=utf-8</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">cj129599</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
 
