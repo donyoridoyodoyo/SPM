@@ -14,6 +14,7 @@
   
   
   function formatOper(value,row,index){
+	  
       return '<a href="#" class="easyui-linkbutton" onclick="deleteUser(2)">删除</a>';  
  } 
  
@@ -55,8 +56,16 @@
 			var ids=[];
 			for (var i = 0; i < selRow.length; i++) {  
 				//获取自定义table 的中的checkbox值  
-				var id=selRow[i].id;   	
-				ids.push(id);
+				var id=selRow[i].id;
+				var position = selRow[i].position;
+				if(position=='管理员'){
+					$.messager.alert("警告","不能删除管理员");
+					$.messager.alert("警告","当前用户职位"+${session.user.position});
+
+				}
+				else{
+					ids.push(id);
+				}
 			}
 			
 			$.getJSON("${ctx}/deleteUser.do",
@@ -80,7 +89,7 @@
  
 	 function saveUser(){
             $('#fm').form('submit',{
-                url: "${ctx}/insertUser.do",
+                url: "${ctx}/insertU ser.do",
                 success: function(result){
                 	var result = eval('('+result+')');
                 	if(result.code==1){
