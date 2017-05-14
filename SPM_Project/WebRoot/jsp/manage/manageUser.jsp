@@ -61,7 +61,6 @@
 				if(position=='管理员'){
 					$.messager.alert("警告","不能删除管理员");
 					$.messager.alert("警告","当前用户职位"+${session.user.position});
-
 				}
 				else{
 					ids.push(id);
