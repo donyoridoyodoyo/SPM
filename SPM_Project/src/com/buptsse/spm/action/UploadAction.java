@@ -32,7 +32,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.struts2.ServletActionContext;
 
 import com.buptsse.spm.domain.Course;
+import com.buptsse.spm.domain.User;
 import com.buptsse.spm.service.ISelectCourseService;
+import com.buptsse.spm.service.IUserService;
 import com.opensymphony.xwork2.ActionSupport;
 
 
@@ -57,7 +59,8 @@ public class UploadAction extends ActionSupport{
 
 	@Resource
 	private ISelectCourseService selectCourseService;	
-	
+	@Resource
+	private IUserService userService;
 
 
 	/**
@@ -154,10 +157,10 @@ public class UploadAction extends ActionSupport{
 					course.setStatus("2");
 					//course.setEmail("");
 					
-					BigDecimal total=course.getDailyGrade().multiply(new BigDecimal(Double.valueOf(0.1)))
-						.add(course.getMidGrade().multiply(new BigDecimal(Double.valueOf(0.1))))
-						.add(course.getPracticeGrade().multiply(new BigDecimal(Double.valueOf(0.1))))
-						.add(course.getFinalGrade().multiply(new BigDecimal(Double.valueOf(0.6))));
+					BigDecimal total=course.getDailyGrade().multiply(new BigDecimal(0.1))
+						.add(course.getMidGrade().multiply(new BigDecimal(0.1)))
+						.add(course.getPracticeGrade().multiply(new BigDecimal(0.2)))
+						.add(course.getFinalGrade().multiply(new BigDecimal(0.6)));
 					
 					course.setTotalGrade(total.setScale(2,BigDecimal.ROUND_HALF_UP));
 
@@ -185,7 +188,56 @@ public class UploadAction extends ActionSupport{
 		return null;
 	}	
 	
-	
+	/**
+	 * 批量上传用户
+	 */
+	public String insertUsers() throws FileNotFoundException, IOException {
+		String msg = "";
+		
+		try {
+		    //判断文件类型
+			String[][] peopleList = getData(file.get(0),1);
+			 
+			int rowNum=peopleList.length;
+			if(rowNum>0){
+				for(int i=0;i<rowNum;++i){
+					User user0 = new User();
+					int index = peopleList[i][0].lastIndexOf(".00");
+					System.out.println(""+index);
+					user0.setId(peopleList[i][0].substring(0,index));
+					user0.setUserId(peopleList[i][0].substring(0,index));
+					user0.setUserName(peopleList[i][1]);
+					index = peopleList[i][2].lastIndexOf(".00");
+					System.out.println(""+index);
+					if(index>-1){user0.setPassword(peopleList[i][2].substring(0,index));}
+					else{user0.setPassword(peopleList[i][2]);}
+					index = peopleList[i][3].lastIndexOf(".00");
+					System.out.println(""+index);
+					user0.setPosition(peopleList[i][3].substring(0,index));
+
+					if("".equals(user0.getId())){
+						msg = "人员信息上传失败，表格中学号或工号不能为空！";	
+						break;
+					}else{
+						userService.addUser(user0);
+						msg = "人员信息上传成功！";	
+					}
+				}				
+			}else{
+				msg = "无人员信息数据，请重新选择文件！";	
+			}
+
+			
+		} catch (Exception ex) {
+			msg = "人员信息上传失败，请重新选择文件";	
+			System.out.println("人员信息上传失败!");
+			ex.printStackTrace();
+		} 
+		
+		ServletActionContext.getResponse().getWriter().write(msg);
+		
+		return null;
+	}
 	
 	
 	/**

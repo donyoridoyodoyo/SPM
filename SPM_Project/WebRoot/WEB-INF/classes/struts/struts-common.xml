@@ -178,6 +178,12 @@
 			<result name="error">error/error.jsp</result>
 		</action>		
 		
+		<!-- 增加人员信息-->
+		<action name="insertUsers" method="insertUsers" class="uploadAction">
+			<result name="success"></result>
+			<result name="error">error/error.jsp</result>
+		</action>	
+		
 		<!-- 删除下载信息-->
 		<action name="deleteDownload" method="deleteDownLoad" class="downLoadAction">
 			<result name="success">/jsp/download/downLoad.jsp</result>

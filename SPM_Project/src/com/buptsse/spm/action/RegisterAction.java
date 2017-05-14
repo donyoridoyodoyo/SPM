@@ -3,22 +3,25 @@
  */
 package com.buptsse.spm.action;
 
-import com.alibaba.fastjson.JSONObject;
-import com.buptsse.spm.domain.Code;
-import com.buptsse.spm.domain.User;
-import com.buptsse.spm.service.ICodeService;
-import com.buptsse.spm.service.IUserService;
-import com.opensymphony.xwork2.ActionSupport;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.alibaba.fastjson.JSONObject;
+import com.buptsse.spm.domain.Code;
+import com.buptsse.spm.domain.Course;
+import com.buptsse.spm.domain.User;
+import com.buptsse.spm.service.ICodeService;
+import com.buptsse.spm.service.IUserService;
+import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * @author BUPT-TC
@@ -46,17 +49,13 @@ public class RegisterAction extends ActionSupport {
 	 */
 	public String register() {
 		String msg="";
-		LOG.error("username:" + user.getUserName());// 没有去check用户是否为空
+		LOG.error("username:" + user.getUserName());
 		if (user == null){
 			LOG.error("USER对象为空！");
 		}
-		if (StringUtils.isBlank(user.getUserName())) {
-			msg = "用户名未输入,请输入用户名！";
-		} else if (StringUtils.isBlank(user.getPassword())) {
-			msg = "密码未输入,请输入密码！";
-		} else if (StringUtils.isBlank(user.getEmail())) {
-			msg = "邮箱未输入,请输入邮箱！";
-		} else {
+		if (StringUtils.isBlank(user.getUserName()) || StringUtils.isBlank(user.getPassword())){
+			msg = "用户名或密码未输入,请输入用户名或密码！";
+		}else{
 			LOG.error("开始保存数据");
 			if(user.getPassword().equals(user.getPassword1())){
 				user.setUserId(user.getUserName());
@@ -92,22 +91,25 @@ public class RegisterAction extends ActionSupport {
 		
 		int page=Integer.parseInt(ServletActionContext.getRequest().getParameter("page"));
 		int rows=Integer.parseInt(ServletActionContext.getRequest().getParameter("rows"));
-
 		Map paramMap = new HashMap();
 		paramMap.put("userId", userid);
 		paramMap.put("userName", userName);
 		paramMap.put("position", position);
 
-		System.out.println("userid"+ userid);
-		System.out.println("userName"+ userName);
-		System.out.println("position"+ position);
-		
 		List<User> list = userService.findPage(paramMap,page, rows);
+		
 		
 		for(User user:list){
 			Code code =  codeService.findCodeName("position", user.getPosition());
 			String codeName =code.getCodeName();
+			//Code code1=codeService.findCodeName("userName", user.getUserName());
+		//	String codeName1=code1.getCodeName();
+			//Code code2=codeService.findCodeName("userId", user.getUserId());
+			//String codeName2=code2.getCodeName();
 			user.setPosition(codeName);
+			
+			//user.setUserName(codeName1);
+			//user.setUserId(codeName2);
 		}
 		
 		
@@ -128,7 +130,7 @@ public class RegisterAction extends ActionSupport {
 			e.printStackTrace();
 		}
 		return null;
-			
+		
 	}	
 	
 
