@@ -20,15 +20,14 @@
  
  //条件查询 
  function query(){
+
+	 
     $('#dataList')[0].style.display="";
     $('#dg').datagrid({
-    	
-    	url:"${ctx}/listUser.do",
-    	queryParams:{userid:$('#userid').val(),
-			userName:$('#userName').val(),
-			position:$('#position').combobox('getValue')} //传参
-   	 	
-   	 	
+    url:"${ctx}/listUser.do",
+    queryParams:{userid:$('#userId').val(),
+    			userName:$('#userName').val(),
+    			position:$('#position').combobox('getValue')} //传参
     });
  }
  
@@ -51,12 +50,19 @@
 				$.messager.alert("警告","请至少选择一行数据!");  
 				return false;  
 			}
-	        
 			var ids=[];
 			for (var i = 0; i < selRow.length; i++) {  
 				//获取自定义table 的中的checkbox值  
-				var id=selRow[i].id;   	
-				ids.push(id);
+				var id=selRow[i].id;  
+				var position = selRow[i].position;
+				if(position == "管理员"){
+					$.messager.alert("警告","不能删除管理员");
+				}
+				else{
+					ids.push(id);
+				}
+				
+				
 			}
 			
 			$.getJSON("${ctx}/deleteUser.do",
@@ -77,6 +83,37 @@
  	$('#dlg').dialog('open').dialog('setTitle','填写用户信息');
  	
  }
+ function addUsers(){
+	 
+	 	$('#dlgs').dialog('open').dialog('setTitle','上传用户信息');
+	 	
+}
+
+ function uploadFile(){
+	 	
+	 	
+	 	var fileName = $('#file').filebox('getValue');
+	 	var prefix = fileName.substring(fileName.lastIndexOf(".")+1);
+	 	if(prefix=="xlsx"||prefix=="xls"){
+	 	
+		 	$('#fileUpload').form('submit',{
+				 url: "${ctx}/insertUsers.do", 	
+		         success: function(result){
+		          $.messager.alert("提示",result);
+		          $('#fileUpload').form('clear');
+		        }	
+		 	}); 	
+	 	
+	 	}else{
+	 		$.messager.alert("提示信息","您上传的文件格式为："+prefix+"，请上传文件格式为xls或xlsx的文件");
+	 	
+	 	}
+	 
+
+	 
+	 }
+
+ 
  
 	 function saveUser(){
             $('#fm').form('submit',{
@@ -111,9 +148,9 @@
  <table style="background:#efefef; border-collapse:collapse ;"   width="100%" height="80" cellspacing="5" cellpadding="5"> 
  	<tr>
 	 	<td width="15%" align="right" ><label for="userid" >学号或工号:</label> </td>
-	 	<td width="15%"><input class="easyui-textbox" type="text" id="classId" /> </td>
+	 	<td width="15%"><input class="easyui-textbox" type="text" id="userId" /> </td>
 	 	<td width="15%" align="right"><label for="userName">用户名:</label> </td>
-	 	<td width="15%"><input class="easyui-textbox" type="text" id="studentId"  /></td>
+	 	<td width="15%"><input class="easyui-textbox" type="text" id="userName"  /></td>
 	 	<td width="15%" align="right"> <label for="position">身份:</label> </td>
     	<td width="25%">
     		<select class="easyui-combobox" type="text" id="position"  panelHeight="100" style="width:150px;" >
@@ -132,7 +169,7 @@
  	        <input type="button" class="btn btn-default" style="margin-right:20px;" onclick="query()" value="查  询" />
  	        <input type="button" class="btn btn-default" style="margin-right:20px;" onclick="clearForm()" value="重  置" />   
 			<input type="button" class="btn btn-default" style="margin-right:20px;" onclick="addUser()" value="添  加" /> 
-	   
+	   		<input type="button" class="btn btn-default" style="margin-right:20px;" onclick="addUsers()" value="批 量 添 加">
 	    </div>
  
 </form> 
@@ -206,6 +243,20 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>	 
   
-  
-  </body>
+   <div id="dlgs" class="easyui-dialog"  style="padding:10px 20px;width: 700px" closed="true" buttons="#dlgs-buttons" >   
+ 	<form id="fileUpload" method="post" enctype="multipart/form-data">
+	  <table style="border-collapse:collapse ;"  width="600px" height="50px" cellspacing="5" cellpadding="5"> 
+	 	<tr>
+		 	<td  width="150px" align="right"  ><label for="fileName" >人员信息文件选择:</label> </td>
+		 	<td   width="200px" align="left" ><input class="easyui-filebox"  id="file" name="file" buttonText="选择文件"  accept=".xlsx,.xls" style="width:300px; height: 26px"> </td>
+		 	<td width="100px"   align="left" ><a href="javascript:void(0)" class="easyui-linkbutton" onclick="uploadFile()" style="width: 100px">上  传</a> </td>
+	 	</tr>
+	  </table>
+ </form>  
+</div>
+<div id="dlgs-buttons" align="center">
+      <a href="javascript:void(0)"   class="easyui-linkbutton"  iconCls="icon-cancel" onclick="javascript:$('#dlgs').dialog('close')" style="width:90px">关 闭</a>
+</div>
+
+ </body>
 </html>
