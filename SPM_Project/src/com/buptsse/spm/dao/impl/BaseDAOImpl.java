@@ -1,15 +1,14 @@
 package com.buptsse.spm.dao.impl;
 
-import java.io.Serializable;
-import java.util.List;
-
+import com.buptsse.spm.dao.IBaseDAO;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.buptsse.spm.dao.IBaseDAO;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * 基础数据库操作类
@@ -70,7 +69,7 @@ public class BaseDAOImpl<T> implements IBaseDAO<T> {
 		return q.list();
 	}
 
-	public List<T> find(String hql, List<T> param) {
+	public List<T> find(String hql, List<?> param) {
 		Query q = this.getCurrentSession().createQuery(hql);
 		if (param != null && param.size() > 0) {
 			for (int i = 0; i < param.size(); i++) {
@@ -80,7 +79,7 @@ public class BaseDAOImpl<T> implements IBaseDAO<T> {
 		return q.list();
 	}
 
-	public List<T> find(String hql, T[] param, Integer page, Integer rows) {
+	public List<T> find(String hql, Object[] param, Integer page, Integer rows) {
 		if (page == null || page < 1) {
 			page = 1;
 		}
@@ -96,7 +95,7 @@ public class BaseDAOImpl<T> implements IBaseDAO<T> {
 		return q.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
 	}
 
-	public List<T> find(String hql, List<T> param, Integer page,
+	public List<T> find(String hql, List<?> param, Integer page,
 			Integer rows) {
 		if (page == null || page < 1) {
 			page = 1;
@@ -128,7 +127,7 @@ public class BaseDAOImpl<T> implements IBaseDAO<T> {
 		}
 	}
 
-	public T get(String hql, List<T> param) {
+	public T get(String hql, List<?> param) {
 		List<T> l = this.find(hql, param);
 		if (l != null && l.size() > 0) {
 			return l.get(0);
@@ -151,7 +150,7 @@ public class BaseDAOImpl<T> implements IBaseDAO<T> {
 		return (Long) q.uniqueResult();
 	}
 
-	public Long count(String hql, List<T> param) {
+	public Long count(String hql, List<?> param) {
 		Query q = this.getCurrentSession().createQuery(hql);
 		if (param != null && param.size() > 0) {
 			for (int i = 0; i < param.size(); i++) {
@@ -175,7 +174,7 @@ public class BaseDAOImpl<T> implements IBaseDAO<T> {
 		return q.executeUpdate();
 	}
 
-	public Integer executeHql(String hql, List<T> param) {
+	public Integer executeHql(String hql, List<?> param) {
 		Query q = this.getCurrentSession().createQuery(hql);
 		if (param != null && param.size() > 0) {
 			for (int i = 0; i < param.size(); i++) {
