@@ -138,10 +138,14 @@ public class UploadAction extends ActionSupport{
 			if(rowNum>0){
 				for(int i=0;i<rowNum;++i){	
 					Course course = new Course();
-					course.setStudentId(scoreList[i][1]);
+					int index0 = scoreList[i][1].lastIndexOf(".00");
+					if(index0>-1){
+						course.setStudentId(scoreList[i][1].substring(0,index0));
+					}else{
+						course.setStudentId(scoreList[i][1]);
+					}
 					course.setSyear(scoreList[i][2].substring(0,4));//对于年份需要特殊处理
 					course.setName(scoreList[i][3]);
-					//course.setClassId(scoreList[i][4]);
 					int index = scoreList[i][4].lastIndexOf(".00");
 					if(index>-1){
 						//对于班级需要特殊处理	
@@ -154,7 +158,7 @@ public class UploadAction extends ActionSupport{
 					course.setFinalGrade(new BigDecimal(scoreList[i][7]));
 					course.setPracticeGrade(new BigDecimal(scoreList[i][8]));
 					//导入成绩的所有的学生状态都为“选课成功”
-					course.setStatus("2");
+					course.setStatus("选课成功");
 					//course.setEmail("");
 					
 					BigDecimal total=course.getDailyGrade().multiply(new BigDecimal(0.1))
