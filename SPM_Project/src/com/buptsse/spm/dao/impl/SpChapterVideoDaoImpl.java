@@ -1,13 +1,12 @@
 package com.buptsse.spm.dao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.buptsse.spm.dao.ISpChapterVideoDao;
+import com.buptsse.spm.domain.SpChapterVideo;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
-import com.buptsse.spm.dao.ISpChapterVideoDao;
-import com.buptsse.spm.domain.SpChapterVideo;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author BUPT-TC
@@ -22,25 +21,25 @@ public class SpChapterVideoDaoImpl extends BaseDAOImpl<SpChapterVideo> implement
 	private static Logger LOG = Logger.getLogger(SpChapterVideoDaoImpl.class);
 	
 	@Override
-	public List<SpChapterVideo> find(String hql, SpChapterVideo[] param) {
+	public List<SpChapterVideo> find(String hql, Object[] param) {
 		// TODO Auto-generated method stub
 		return super.find("from SpChapterVideo where chapter_id= :param", param);
 	}
 
 	@Override
-	public SpChapterVideo get(String hql, SpChapterVideo[] param) {
+	public SpChapterVideo get(String hql, Object[] param) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Long count(String hql, SpChapterVideo[] param) {
+	public Long count(String hql, Object[] param) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Integer executeHql(String hql, SpChapterVideo[] param) {
+	public Integer executeHql(String hql, Object[] param) {
 		// TODO Auto-generated method stub
 		return null;
 	}
