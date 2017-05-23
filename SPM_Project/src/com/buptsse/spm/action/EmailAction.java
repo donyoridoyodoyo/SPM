@@ -1,11 +1,15 @@
 package com.buptsse.spm.action;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import com.buptsse.spm.domain.ConfigInfo;
+import com.buptsse.spm.domain.Course;
+import com.buptsse.spm.service.IConfigInfoService;
+import com.buptsse.spm.service.ISelectCourseService;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import javax.mail.Address;
@@ -14,17 +18,9 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import org.apache.struts2.ServletActionContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.buptsse.spm.domain.ConfigInfo;
-import com.buptsse.spm.domain.Course;
-import com.buptsse.spm.service.IConfigInfoService;
-import com.buptsse.spm.service.ISelectCourseService;
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
+import java.math.BigDecimal;
+import java.util.Map;
+import java.util.Properties;
 
 
 /**
@@ -66,6 +62,11 @@ public class EmailAction extends ActionSupport{
 		String emailFrom2 = this.emailFrom;
 		String style = emailFrom2.substring(emailFrom2.indexOf('@') + 1,
 				emailFrom2.indexOf('.'));
+		// Due to some non-descriptive reasons, cast foxmail to qq.
+		// FIXME: Modify database to set style as a new config.
+		if (StringUtils.equalsIgnoreCase(style, "foxmail")) {
+			style = "qq";
+		}
 		this.smtpStyle = "smtp." + style + ".com";
 	}
 	
@@ -85,7 +86,7 @@ public class EmailAction extends ActionSupport{
 		emailFrom = configInfo.getConfigValue();
 		configInfo = configInfoService.findByTypeAndCode("Email", "passWord");
 		password = configInfo.getConfigValue();		
-		System.out.println("****************emailFrom**************:"+emailFrom+"*********password*************:"+password);
+		System.out.println("********** emailFrom "+emailFrom+" ***** password "+password);
 		setEmailStyle();		
 		
 		
@@ -141,38 +142,42 @@ public class EmailAction extends ActionSupport{
 	public void sendEmail(String subject, String content, String emailTo)
 	throws Exception {
 		Properties props = new Properties();
-		props.put("mail.smtp.host", smtpStyle);
-		props.put("mail.smtp.auth", "true"); // 
+		// props.put("mail.smtp.host", smtpStyle);
+		// props.put("mail.smtp.auth", "true"); //
+		props.put("mail.smtp.socketFactory.fallback", "false");
+		props.put("mail.smtp.starttls.enable", "true");
 		
-		Session sendMailSession = Session.getInstance(props, null);
-		
-		Transport transport = sendMailSession.getTransport("smtp");
-		// 根据邮箱地址和密码连接邮箱
-		
-		transport.connect(smtpStyle, emailFrom, password);
-		Message newMessage = new MimeMessage(sendMailSession);
-		
-		// 设置mail主题
-		newMessage.setSubject(subject);
-		
-		// 设置发信人地址
-		String strFrom = new String(emailFrom.getBytes(), "iso-8859-1");
-		newMessage.setFrom(new InternetAddress(strFrom));
-		
-		Address addressTo[] = { new InternetAddress(emailTo) };
-		newMessage.setRecipients(Message.RecipientType.TO, addressTo);
-		
-		// 设置mail正文
-		newMessage.setSentDate(new java.util.Date());
-		newMessage.setText(content);
-		
-		newMessage.saveChanges(); // 保存发送信息
-		transport.sendMessage(newMessage, newMessage
-				.getRecipients(Message.RecipientType.TO)); // 发送邮件
-		
-		transport.close();
-		// Transport.send(newMessage);
+		Session sendMailSession = Session.getInstance(props);
+		sendMailSession.setDebug(false);
 
+		Transport transport = sendMailSession.getTransport("smtp");
+		try {
+			// 根据邮箱地址和密码连接邮箱
+
+			transport.connect(smtpStyle, emailFrom, password);
+			Message newMessage = new MimeMessage(sendMailSession);
+
+			// 设置mail主题
+			newMessage.setSubject(subject);
+
+			// 设置发信人地址
+			String strFrom = new String(emailFrom.getBytes(), "iso-8859-1");
+			newMessage.setFrom(new InternetAddress(strFrom));
+
+			Address addressTo[] = { new InternetAddress(emailTo) };
+			newMessage.setRecipients(Message.RecipientType.TO, addressTo);
+
+			// 设置mail正文
+			newMessage.setSentDate(new java.util.Date());
+			newMessage.setText(content);
+
+			newMessage.saveChanges(); // 保存发送信息
+			transport.sendMessage(newMessage, newMessage
+					.getRecipients(Message.RecipientType.TO)); // 发送邮件
+		} finally {
+			transport.close();
+			// Transport.send(newMessage);
+		}
 	}
 
 	public ISelectCourseService getSelectCourseService() {
