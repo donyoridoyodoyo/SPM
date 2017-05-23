@@ -363,9 +363,7 @@
             data-options="fit:false,border:false,pageSize:10,pageList:[10,15,20,500]" >
         <thead>
             <tr>
-            	<c:if test="${session.user.position!='3' }">
-                	<th data-options="checkbox:true" field=""  ></th>
-                </c:if>
+				<th data-options="checkbox:true" field=""></th>
                 <th data-options="field:'studentId'" width="10%">学号</th>
                 <th data-options="field:'syear'" width="5%">学年</th>
                 <th data-options="field:'name'" width="10%">姓名</th>
