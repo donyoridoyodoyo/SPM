@@ -310,10 +310,10 @@
 	<h1 style="font-size: 28px;color: #00a1f1;border-bottom: 1px solid #b6d9e8;line-height: 50px;word-break:break-all;">
 	    成绩查询
    </h1>  
- <c:if test="${session.user.position=='1' }">
- 	您作为管理员，无该功能权限！
- </c:if> 
-
+ <%  //<c:if test="${session.user.position=='1' }">
+ 	//您作为管理员，无该功能权限！
+     //</c:if> 
+%>
 
 <div id="dlg" class="easyui-dialog"  style="padding:10px 20px;width: 700px" closed="true" buttons="#dlg-buttons" >   
  <form id="fileUpload" method="post" enctype="multipart/form-data">
@@ -330,7 +330,8 @@
       <a href="javascript:void(0)"   class="easyui-linkbutton"  iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">关 闭</a>
 </div>  
   
- <c:if test="${session.user.position=='2' }">     
+<%//改过 %>
+ <c:if test="${session.user.position!='3'}">     
 	 <form id="ff" method="post">   
 	 <table style="background:#efefef; border-collapse:collapse ;"   width="100%"  height="50px" cellspacing="5" cellpadding="5"> 
 	 	<tr>

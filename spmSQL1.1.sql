@@ -18,6 +18,7 @@
 --
 -- Table structure for table `basicinfo`
 --
+use spm;
 
 DROP TABLE IF EXISTS `basicinfo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
