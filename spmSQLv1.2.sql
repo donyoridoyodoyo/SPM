@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Linux (x86_64)
+-- MySQL dump 10.14  Distrib 5.5.52-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: spm
 -- ------------------------------------------------------
--- Server version	5.7.17
+-- Server version	5.5.52-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,7 +18,6 @@
 --
 -- Table structure for table `basicinfo`
 --
-use spm;
 
 DROP TABLE IF EXISTS `basicinfo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -70,6 +69,35 @@ INSERT INTO `code` VALUES (1,'position','1','管理员','1',''),(2,'position','2
 UNLOCK TABLES;
 
 --
+-- Table structure for table `configInfo`
+--
+
+DROP TABLE IF EXISTS `configInfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `configInfo` (
+  `id` int(11) NOT NULL,
+  `configType` varchar(255) DEFAULT NULL,
+  `configCode` varchar(255) DEFAULT NULL,
+  `configValue` varchar(255) DEFAULT NULL,
+  `configDesc` varchar(255) DEFAULT NULL,
+  `validate` varchar(255) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `configInfo`
+--
+
+LOCK TABLES `configInfo` WRITE;
+/*!40000 ALTER TABLE `configInfo` DISABLE KEYS */;
+INSERT INTO `configInfo` VALUES (0,'Email','userName','vita_nove@foxmail.com','Email username','1',NULL),(1,'Email','passWord','yhdfvddnupixdjjb','Email password','1',NULL);
+/*!40000 ALTER TABLE `configInfo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `course`
 --
 
@@ -99,7 +127,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES ('2','2','2','2','2','待确认',0.00,0.00,0.00,0.00,0.00,NULL),('3','3','3','3','3','待确认',0.00,0.00,0.00,0.00,0.00,NULL),('9212017','gaojian','2012211501','1347776003@qq.com','15652964345','选课成功',75.00,66.00,87.00,100.00,86.00,NULL),('9212018','gaojian','2012211501','badong123123@126.com','15652964345','选课成功',80.00,60.00,85.00,100.00,85.00,NULL);
+INSERT INTO `course` VALUES ('2','2','2','2','2','待确认',0.00,0.00,0.00,0.00,0.00,NULL),('2014212017','gy','2014211502','donyoridoyodoyo@outlook.com','17801000196','2',0.00,0.00,0.00,0.00,0.00,'2014'),('3','3','3','3','3','待确认',0.00,0.00,0.00,0.00,0.00,NULL),('9212017','gaojian','2012211501','1347776003@qq.com','15652964345','选课成功',75.00,66.00,87.00,100.00,86.00,NULL),('9212018','gaojian','2012211501','badong123123@126.com','15652964345','选课成功',80.00,60.00,85.00,100.00,85.00,NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,7 +400,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('1','1','1','3028913971@qq.com','1','1',76),('2','2','2','3028913971@qq.com','2','2',76),('4','4','4','3028913971@qq.com','3','1',76),('5','3','3','3028913971@qq.com','3','3',0);
+INSERT INTO `user` VALUES ('1','1','1','3028913971@qq.com','1','1',76),('2','2','2','3028913971@qq.com','2','2',76),('2014212017','2014212017','123456','donyoridoyodoyo@outlook.com','3','2014212017',0),('4','4','4','3028913971@qq.com','3','1',76),('5','3','3','3028913971@qq.com','3','3',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -385,4 +413,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-04 15:25:25
+-- Dump completed on 2017-05-23 17:26:40

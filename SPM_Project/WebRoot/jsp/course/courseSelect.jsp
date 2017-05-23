@@ -160,8 +160,9 @@
 	<h1 style="font-size: 28px;color: #00a1f1;border-bottom: 1px solid #b6d9e8;line-height: 50px;word-break:break-all;">
 	    选课
    </h1>  
- 
- <form id="ff" method="post">  
+ <div>
+ <form id="ff" method="post">
+   
  <c:if test="${session.user.position=='1' }">
  	您作为管理员，无该功能权限！
  </c:if> 
@@ -201,15 +202,26 @@
  	        <input type="button" class="btn btn-default" style="margin-right:20px;" onclick="clearForm()" value="重  置" />   
 	    </div>
  </c:if>	    
- 			<c:if test="${session.user.position=='3' }">
-				<input type="button" id="selectButton" class="btn btn-default" style="margin-right:20px;" onclick="selectCourse()" value="我要选课" /> 
-			</c:if>	  
+ 
+ <c:if test="${session.user.position=='3' }">
+ <div style="text-align:center;padding:5px">
+    	<input type="button" id="selectButton" class="btn btn-default" style="margin-right:20px;" onclick="selectCourse()" value="我要选课" /> 
+ </div>
+ <table style="background:#efefef; border-collapse:collapse ;"   width="100%" height="80" cellspacing="5" cellpadding="5"/>
+
+
+</c:if>
+
 </form> 
 
 
 
   
   <div id="dataList" style="display:none;" > 
+  	<c:if test="${session.user.position=='3' }">
+	<input type="button" id="selectButton" class="btn btn-default" style="margin-right:20px;" onclick="selectCourse()" value="我要选课" /> 
+	</c:if>
+	
     <table id="dg"  class="easyui-datagrid"  width="100%" 
             toolbar="#toolbar" pagination="true"
             rownumbers="true" fitColumns="true" singleSelect="false"
@@ -229,7 +241,9 @@
                 </c:if>
             </tr>
         </thead>
+        
     </table>  
+    
         <div id="toolbar">
         <c:if test="${session.user.position!='3' }">
 	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="operateStatus(1)">批量确认</a>
@@ -237,9 +251,9 @@
 	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-no" plain="true" onclick="operateStatus(3)">批量删除</a>
     	</c:if>
     	</div>
-  <div>
+  </div>
   
-  
+
  
      <div id="dlg" class="easyui-dialog"  style="padding:10px 30px"
             closed="true" buttons="#dlg-buttons">
@@ -280,7 +294,7 @@
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveSelectCourse()" style="width:90px">确认</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>	 
-  
-  
+    
+  </div>
   </body>
 </html>
