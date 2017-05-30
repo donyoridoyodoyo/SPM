@@ -1,14 +1,12 @@
 package com.buptsse.spm.dao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.buptsse.spm.dao.IUserDao;
+import com.buptsse.spm.domain.User;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
-import com.buptsse.spm.dao.IUserDao;
-import com.buptsse.spm.domain.Message;
-import com.buptsse.spm.domain.User;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author BUPT-TC
@@ -27,7 +25,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements IUserDao {
 	 * 查询
 	 */
 	@Override
-	public List<User> find(String hql, User[] param) {
+	public List<User> find(String hql, Object[] param) {
 		return super.find("from User where username= :param", param);
 	}
 
@@ -35,7 +33,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements IUserDao {
 	 * @see com.buptsse.spm.dao.IBaseDAO#get(java.lang.String, java.lang.Object[])
 	 */
 	@Override
-	public User get(String hql, User[] param) {
+	public User get(String hql, Object[] param) {
 		return super.get(User.class, param);
 	}
 
@@ -43,7 +41,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements IUserDao {
 	 * @see com.buptsse.spm.dao.IBaseDAO#count(java.lang.String, java.lang.Object[])
 	 */
 	@Override
-	public Long count(String hql, User[] param) {
+	public Long count(String hql, Object[] param) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -52,7 +50,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements IUserDao {
 	 * @see com.buptsse.spm.dao.IBaseDAO#executeHql(java.lang.String, java.lang.Object[])
 	 */
 	@Override
-	public Integer executeHql(String hql, User[] param) {
+	public Integer executeHql(String hql, Object[] param) {
 		// TODO Auto-generated method stub
 		return null;
 	}

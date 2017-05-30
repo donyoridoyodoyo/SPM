@@ -2,14 +2,13 @@ package com.buptsse.spm.dao.impl;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.buptsse.spm.dao.ISelectCourseDao;
+import com.buptsse.spm.domain.Course;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
-import com.buptsse.spm.dao.ISelectCourseDao;
-import com.buptsse.spm.domain.Course;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -28,7 +27,7 @@ public class SelectCourseDaoImpl extends BaseDAOImpl<Course> implements ISelectC
 	 * @see com.buptsse.dao.BaseDAO#find(java.lang.String, java.lang.Object[])
 	 */
 	@Override
-	public List<Course> find(String hql, Course[] param) {
+	public List<Course> find(String hql, Object[] param) {
 		// TODO Auto-generated method stub
 		return super.find("from Course where studentId= :param", param);
 	}
@@ -37,7 +36,7 @@ public class SelectCourseDaoImpl extends BaseDAOImpl<Course> implements ISelectC
 	 * @see com.buptsse.dao.BaseDAO#get(java.lang.String, java.lang.Object[])
 	 */
 	@Override
-	public Course get(String hql, Course[] param) {
+	public Course get(String hql, Object[] param) {
 		// TODO Auto-generated method stub
 		return super.get(Course.class, param);
 	}
@@ -57,7 +56,7 @@ public class SelectCourseDaoImpl extends BaseDAOImpl<Course> implements ISelectC
 	 * @see com.buptsse.dao.BaseDAO#executeHql(java.lang.String, java.lang.Object[])
 	 */
 	@Override
-	public Integer executeHql(String hql, Course[] param) {
+	public Integer executeHql(String hql, Object[] param) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -192,7 +191,7 @@ public class SelectCourseDaoImpl extends BaseDAOImpl<Course> implements ISelectC
 		
 	}
 	@Override
-	public Long count(String hql, Course[] param) {
+	public Long count(String hql, Object[] param) {
 		// TODO Auto-generated method stub
 		return null;
 	}

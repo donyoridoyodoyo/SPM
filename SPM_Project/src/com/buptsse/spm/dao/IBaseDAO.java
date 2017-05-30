@@ -56,7 +56,7 @@ public interface IBaseDAO<T> {
 	 * @param param
 	 * @return
 	 */
-	public List<T> find(String hql, T[] param);
+	public List<T> find(String hql, Object[] param);
 
 	/**
 	 * 查询集合
@@ -65,7 +65,7 @@ public interface IBaseDAO<T> {
 	 * @param param
 	 * @return
 	 */
-	public List<T> find(String hql, List<T> param);
+	public List<T> find(String hql, List<?> param);
 
 	/**
 	 * 查询集合(带分页)
@@ -78,7 +78,7 @@ public interface IBaseDAO<T> {
 	 *            每页显示几条记录
 	 * @return
 	 */
-	public List<T> find(String hql, T[] param, Integer page, Integer rows);
+	public List<T> find(String hql, Object[] param, Integer page, Integer rows);
 
 	/**
 	 * 查询集合(带分页)
@@ -89,7 +89,7 @@ public interface IBaseDAO<T> {
 	 * @param rows
 	 * @return
 	 */
-	public List<T> find(String hql, List<T> param, Integer page,
+	public List<T> find(String hql, List<?> param, Integer page,
 			Integer rows);
 
 	/**
@@ -109,7 +109,7 @@ public interface IBaseDAO<T> {
 	 * @param param
 	 * @return Object
 	 */
-	public T get(String hql, T[] param);
+	public T get(String hql, Object[] param);
 
 	/**
 	 * 获得一个对象
@@ -118,7 +118,7 @@ public interface IBaseDAO<T> {
 	 * @param param
 	 * @return
 	 */
-	public T get(String hql, List<T> param);
+	public T get(String hql, List<?> param);
 
 	/**
 	 * select count(*) from 类
@@ -135,7 +135,7 @@ public interface IBaseDAO<T> {
 	 * @param param
 	 * @return
 	 */
-	public Long count(String hql, T[] param);
+	public Long count(String hql, Object[] param);
 
 	/**
 	 * select count(*) from 类
@@ -144,7 +144,7 @@ public interface IBaseDAO<T> {
 	 * @param param
 	 * @return
 	 */
-	public Long count(String hql, List<T> param);
+	public Long count(String hql, List<?> param);
 
 	/**
 	 * 执行HQL语句
@@ -161,7 +161,7 @@ public interface IBaseDAO<T> {
 	 * @param param
 	 * @return 响应数目
 	 */
-	public Integer executeHql(String hql, T[] param);
+	public Integer executeHql(String hql, Object[] param);
 
 	/**
 	 * 执行HQL语句
@@ -170,6 +170,6 @@ public interface IBaseDAO<T> {
 	 * @param param
 	 * @return
 	 */
-	public Integer executeHql(String hql, List<T> param);
+	public Integer executeHql(String hql, List<?> param);
 
 }
