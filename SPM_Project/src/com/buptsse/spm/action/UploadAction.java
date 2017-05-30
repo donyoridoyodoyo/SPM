@@ -197,7 +197,7 @@ public class UploadAction extends ActionSupport{
 	 */
 	public String insertUsers() throws FileNotFoundException, IOException {
 		String msg = "";
-		
+		System.out.println("This is insertUsers");
 		try {
 		    //判断文件类型
 			String[][] peopleList = getData(file.get(0),1);
@@ -207,17 +207,15 @@ public class UploadAction extends ActionSupport{
 				for(int i=0;i<rowNum;++i){
 					User user0 = new User();
 					int index = peopleList[i][0].lastIndexOf(".00");
-					System.out.println(""+index);
 					user0.setId(peopleList[i][0].substring(0,index));
 					user0.setUserId(peopleList[i][0].substring(0,index));
 					user0.setUserName(peopleList[i][1]);
 					index = peopleList[i][2].lastIndexOf(".00");
-					System.out.println(""+index);
 					if(index>-1){user0.setPassword(peopleList[i][2].substring(0,index));}
 					else{user0.setPassword(peopleList[i][2]);}
 					index = peopleList[i][3].lastIndexOf(".00");
-					System.out.println(""+index);
-					user0.setPosition(peopleList[i][3].substring(0,index));
+					user0.setPosition(peopleList[i][3].substring(0,index));                                                                                                                          
+					user0.setEmail(peopleList[i][4]);
 
 					if("".equals(user0.getId())){
 						msg = "人员信息上传失败，表格中学号或工号不能为空！";	

@@ -61,11 +61,13 @@ public class CourseScheduleAction extends ActionSupport{
 		
 	   Integer bofangTime=0;
 	   Integer watchCourseStep=0;		
-		
+	   System.out.println("bofangP:"+bofangP);
+	   System.out.println("bofangE:"+bofangE);
 	    String[] names = bofangP.split("\\.");
 	    if(bofangP.compareTo("")!=0){   //  modified later******************************
+	    	System.out.println("names.length:"+names.length);
 	        for (int i = 0; i < names.length; i++) {
-	            System.out.println(names[i]);
+	            System.out.println("names:"+names[i]);
 	        }
 	         bofangTime=Integer.valueOf(names[0]);
 	         watchCourseStep= Integer.valueOf(names[1]);
@@ -75,8 +77,9 @@ public class CourseScheduleAction extends ActionSupport{
 	    String[] names1 = bofangE.split("\\.");
 	    Integer bofangTime1=0;//结束时		
 	    if(bofangE.compareTo("")!=0){  //  modified later **************************
+	    	System.out.println("names1.length:"+names1.length);
 	        for (int i = 0; i < names1.length; i++) {
-	            System.out.println(names1[i]);
+	            System.out.println("names1:"+names1[i]);
 	        }
 	        bofangTime1=Integer.valueOf(names1[0]);
 	        watchCourseStep= Integer.valueOf(names1[1]);
@@ -103,7 +106,7 @@ public class CourseScheduleAction extends ActionSupport{
 		
 		//取播放时间
 		int yourTime=user.getVideoTime()+computeTime;		
-		
+		System.out.println("yourTime:"+yourTime);
 		
 		if (bofangE.compareTo("")==0) {
 			
@@ -119,9 +122,9 @@ public class CourseScheduleAction extends ActionSupport{
 	        int time=videoList.get(0).getVideo_time();//这个视频的时间
 	         System.out.println("time:"+time);		
 
-	         double temp=(time)*new Double(percent)/100;
+	         double temp=(time)*new Double(percent)/100;//原来的进度时间
 	         System.out.println("temp:"+temp);
-	        double nowTime1=(temp+compare)*100/time;
+	        double nowTime1=compare*100/time;//现在的进度
 	       //四舍五入
 	        int nowTime =0;
 			if(nowTime1-Math.floor(nowTime1)>=0.5){
@@ -136,7 +139,7 @@ public class CourseScheduleAction extends ActionSupport{
 	        if(nowTime>100){
 	        	nowTime=100;
 	        }		
-			
+			if(nowTime>percent){
 	        // 更新Schedule表数据
 	        Schedule schedule = new Schedule();
 	        schedule.setPercent(nowTime);
@@ -151,8 +154,8 @@ public class CourseScheduleAction extends ActionSupport{
 		
 			//更新session中的数据
 			ServletActionContext.getRequest().getSession().setAttribute("user", user);	        
-			
-		}		
+			}
+		}
 		
 		return null;
 	}		
